@@ -1,1 +1,8 @@
-{}
+{
+  "https://github.com/OctagonAI/octagon-mcp-server": {
+    "path": "servers/octogram",
+    "category": "analyze",
+    "name": "octagon-mcp-server",
+    "description": "A free MCP server to analyze and extract insights from public filings, earnings transcripts, financial metrics, stock market data, private market transactions, and deep web-based research within Claude Desktop and other popular MCP clients."
+  }
+}
