@@ -14,6 +14,7 @@ A curated collection of Model Context Protocol (MCP) servers that can be easily 
 - [How to contribute](#how-to-contribute)
 - [Community](#community)
 - [MCP Servers](#mcp-servers)
+  - [analyze](#analyze)
 - [License](#license)
 <!-- TOC_END -->
 
@@ -48,6 +49,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 ## MCP Servers
 
 <!-- APPLICATIONS_START -->
+
+### analyze
+
+- [octagon-mcp-server](servers/octogram/) - A free MCP server to analyze and extract insights from public filings, earnings transcripts, financial metrics, stock market data, private market transactions, and deep web-based research within Claude Desktop and other popular MCP clients.
+
 <!-- APPLICATIONS_END -->
 
 ## License
