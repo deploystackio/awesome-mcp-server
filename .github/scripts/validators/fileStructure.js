@@ -13,22 +13,22 @@ function validateFileStructure(filePath) {
   }
   
   // Check if file is in the correct directory structure
-  if (!filePath.startsWith('commands/')) {
-    return `File ${filePath} is not in the commands directory`;
+  if (!filePath.startsWith('servers/')) {
+    return `File ${filePath} is not in the servers directory`;
   }
   
   // Parse the path components
   const pathParts = filePath.split('/');
   
-  // commands/app-name/docker-run.md
+  // servers/server-name/mcp-server.md
   if (pathParts.length !== 3) {
-    return `Invalid path structure: ${filePath}. Expected format: commands/app-name/docker-run.md`;
+    return `Invalid path structure: ${filePath}. Expected format: servers/server-name/mcp-server.md`;
   }
   
   // Check if the filename is correct
   const filename = path.basename(filePath);
-  if (filename !== 'docker-run.md') {
-    return `Invalid filename: ${filename}. Expected 'docker-run.md'`;
+  if (filename !== 'mcp-server.md') {
+    return `Invalid filename: ${filename}. Expected 'mcp-server.md'`;
   }
   
   return null; // No errors

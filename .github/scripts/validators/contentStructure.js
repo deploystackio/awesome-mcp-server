@@ -14,16 +14,16 @@ function validateContentStructure(fileContent, filePath) {
   // Remove front matter for content checks
   const contentWithoutFrontMatter = fileContent.replace(/^---\n[\s\S]*?\n---/, '').trim();
   
-  // Check for application name (H1 heading)
+  // Check for MCP server name (H1 heading)
   const h1Match = contentWithoutFrontMatter.match(/^#\s+(.+)$/m);
   if (!h1Match) {
-    return `Missing application name (H1 heading) in ${filePath}`;
+    return `Missing MCP server name (H1 heading) in ${filePath}`;
   }
   
-  // Check for Docker run command section - It can be either "# Docker Run Command" or "## Docker Run Command"
-  if (!contentWithoutFrontMatter.includes('# Docker Run Command') && 
-      !contentWithoutFrontMatter.includes('## Docker Run Command')) {
-    return `Missing "Docker Run Command" section in ${filePath}`;
+  // Check for MCP Server Configuration section - It can be either "# MCP Server Configuration" or "## MCP Server Configuration"
+  if (!contentWithoutFrontMatter.includes('# MCP Server Configuration') && 
+      !contentWithoutFrontMatter.includes('## MCP Server Configuration')) {
+    return `Missing "MCP Server Configuration" section in ${filePath}`;
   }
   
   // Description is optional based on the CONTRIBUTING.md guidelines

@@ -49,8 +49,8 @@ function validateDuplicateRepo(fileContent, filePath) {
     
     // Check if the repo URL already exists in the index
     if (repoUrl in index) {
-      // Get the command directory path from the current filePath
-      // e.g., "commands/nginx/docker-run.md" -> "commands/nginx"
+      // Get the server directory path from the current filePath
+      // e.g., "servers/my-server/mcp-server.md" -> "servers/my-server"
       const currentDirPath = path.dirname(filePath);
       
       // Get the existing path from the index

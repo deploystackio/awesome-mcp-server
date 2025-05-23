@@ -5,7 +5,7 @@ const https = require('https');
 
 // Configuration
 const REPO_INDEX_PATH = path.join('.github', 'repo-index.json');
-const DOCKER_RUN_PATTERN = 'commands/*/docker-run.md';
+const MCP_SERVER_PATTERN = 'servers/*/mcp-server.md';
 const GITHUB_API_RATE_LIMIT_WAIT = 60000; // 1 minute in ms
 
 /**
@@ -20,7 +20,7 @@ function fetchFromGitHub(url) {
     
     const options = {
       headers: {
-        'User-Agent': 'awesome-docker-run-indexer',
+        'User-Agent': 'awesome-mcp-server-indexer',
         ...(token ? { 'Authorization': `token ${token}` } : {})
       }
     };
@@ -90,14 +90,14 @@ function getFilesToProcess(changedFiles) {
   } else {
     // Fallback: Look for changes in the current PR
     console.log("No changes detected by changed-files action, falling back to git diff...");
-    const prFiles = runCommand("git diff --name-only HEAD~1 HEAD | grep \"^commands/.*/docker-run.md\" || echo \"\"");
+    const prFiles = runCommand("git diff --name-only HEAD~1 HEAD | grep \"^servers/.*/mcp-server.md\" || echo \"\"");
     
     if (prFiles) {
       filesToProcess = prFiles.split('\n').filter(Boolean);
     } else {
-      // If still no files found, check for any docker-run.md files
-      console.log("Checking for any files in commands directory...");
-      const allFiles = runCommand(`find commands -name "docker-run.md"`);
+      // If still no files found, check for any mcp-server.md files
+      console.log("Checking for any files in servers directory...");
+      const allFiles = runCommand(`find servers -name "mcp-server.md"`);
       filesToProcess = allFiles.split('\n').filter(Boolean);
     }
   }
@@ -106,8 +106,8 @@ function getFilesToProcess(changedFiles) {
 }
 
 /**
- * Extracts front matter data from a docker-run.md file
- * @param {string} filePath - Path to the docker-run.md file
+ * Extracts front matter data from a mcp-server.md file
+ * @param {string} filePath - Path to the mcp-server.md file
  * @returns {Object|null} Object with repo URL and category, or null if not found
  */
 function extractFrontMatter(filePath) {
@@ -213,8 +213,8 @@ async function updateRepoIndex(filesToProcess) {
   
   // Process each file
   for (const file of filesToProcess) {
-    // Only process docker-run.md files
-    if (!file.match(/commands\/[^\/]+\/docker-run\.md$/)) {
+    // Only process mcp-server.md files
+    if (!file.match(/servers\/[^\/]+\/mcp-server\.md$/)) {
       continue;
     }
     
@@ -227,15 +227,15 @@ async function updateRepoIndex(filesToProcess) {
       const repoUrl = frontMatterData.repoUrl;
       const category = frontMatterData.category;
       
-      // Extract the command directory path
-      const commandDir = path.dirname(file);
-      const commandName = path.basename(commandDir);
+      // Extract the server directory path
+      const serverDir = path.dirname(file);
+      const serverName = path.basename(serverDir);
       
       // Check if this repo URL already exists in the index
       const existingEntry = indexContent[repoUrl];
       
-      if (existingEntry && existingEntry.path !== commandDir) {
-        console.log(`Warning: Repository URL ${repoUrl} already exists in ${existingEntry.path}, will be updated to ${commandDir}`);
+      if (existingEntry && existingEntry.path !== serverDir) {
+        console.log(`Warning: Repository URL ${repoUrl} already exists in ${existingEntry.path}, will be updated to ${serverDir}`);
       }
       
       // Get repository information from GitHub API
@@ -244,13 +244,13 @@ async function updateRepoIndex(filesToProcess) {
       if (repoInfo) {
         // Add or update the entry in the index with the new structure including category
         indexContent[repoUrl] = {
-          path: commandDir,
+          path: serverDir,
           category: category,
           name: repoInfo.name,
           description: repoInfo.description
         };
         
-        console.log(`Added/Updated ${repoUrl} -> ${commandDir} (${repoInfo.name}, Category: ${category})`);
+        console.log(`Added/Updated ${repoUrl} -> ${serverDir} (${repoInfo.name}, Category: ${category})`);
         changesMade = true;
       }
     }

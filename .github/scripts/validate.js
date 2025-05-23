@@ -5,8 +5,7 @@ const fs = require('fs');
 const { validateFileStructure } = require('./validators/fileStructure');
 const { validateFrontMatter } = require('./validators/frontMatter');
 const { validateContentStructure } = require('./validators/contentStructure');
-const { validateDockerCommand } = require('./validators/dockerCommand');
-const { validateDockerImageTag } = require('./validators/dockerImageTag');
+const { validateMcpServerConfig } = require('./validators/mcpServerConfig');
 const { validateDuplicateRepo } = require('./validators/duplicateRepo');
 const { validateCategory } = require('./validators/category');
 
@@ -40,20 +39,16 @@ async function validateFile(filePath) {
     const contentError = validateContentStructure(fileContent, filePath);
     if (contentError) result.errors.push(contentError);
     
-    // Step 4: Validate Docker command
-    const dockerError = validateDockerCommand(fileContent, filePath);
-    if (dockerError) result.errors.push(dockerError);
+    // Step 4: Validate MCP server configuration
+    const configError = validateMcpServerConfig(fileContent, filePath);
+    if (configError) result.errors.push(configError);
     
-    // Step 5: Validate Docker image tag
-    const tagError = validateDockerImageTag(fileContent, filePath);
-    if (tagError) result.errors.push(tagError);
-    
-    // Step 6: Validate for duplicate repositories
+    // Step 5: Validate for duplicate repositories
     const repoResult = validateDuplicateRepo(fileContent, filePath);
     if (repoResult.error) result.errors.push(repoResult.error);
     result.isUpdate = repoResult.isUpdate;
 
-    // Step 7: Validate Category field
+    // Step 6: Validate Category field
     const categoryError = validateCategory(fileContent, filePath);
     if (categoryError) result.errors.push(categoryError);
     
@@ -78,13 +73,13 @@ async function main() {
     updates: [] // Track which files are updates
   };
   
-  let hasCommandsChanges = false;
+  let hasServersChanges = false;
   
   // Validate each file
   for (const filePath of filePaths) {
-    // Only validate files in the commands directory
-    if (filePath.startsWith('commands/') && !filePath.endsWith('/')) {
-      hasCommandsChanges = true;
+    // Only validate files in the servers directory
+    if (filePath.startsWith('servers/') && !filePath.endsWith('/')) {
+      hasServersChanges = true;
       
       console.log(`Validating ${filePath}...`);
       const fileResult = await validateFile(filePath);
@@ -99,18 +94,18 @@ async function main() {
       } else {
         console.log(`✅ ${filePath} is valid`);
         
-        // If this is an update to an existing command, add to updates list
+        // If this is an update to an existing server, add to updates list
         if (fileResult.isUpdate) {
-          console.log(`🔄 ${filePath} is an update to an existing command`);
+          console.log(`🔄 ${filePath} is an update to an existing MCP server`);
           validationResults.updates.push(filePath);
         }
       }
     }
   }
   
-  // If no commands files were changed, exit with success
-  if (!hasCommandsChanges) {
-    console.log('No changes in commands directory. Skipping validation.');
+  // If no servers files were changed, exit with success
+  if (!hasServersChanges) {
+    console.log('No changes in servers directory. Skipping validation.');
     process.exit(0);
   }
   

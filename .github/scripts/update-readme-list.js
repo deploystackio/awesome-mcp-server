@@ -33,7 +33,7 @@ function loadRepoIndex() {
  * @returns {{markdownList: string, categories: string[]}} An object containing the markdown string and sorted category names.
  */
 function generateGroupedAppListAndCategories() {
-  const appsByCategory = {};
+  const serversByCategory = {};
   const repoIndex = loadRepoIndex();
 
   if (!repoIndex) {
@@ -45,40 +45,40 @@ function generateGroupedAppListAndCategories() {
   
   // Process all entries in the repo index
   for (const [repoUrl, repoEntry] of Object.entries(repoIndex)) {
-    const { path: appPath, name: appName, category, description } = repoEntry;
-    console.log(`Processing entry: ${repoUrl} -> ${appName} (${category})`);
+    const { path: serverPath, name: serverName, category, description } = repoEntry;
+    console.log(`Processing entry: ${repoUrl} -> ${serverName} (${category})`);
     
     if (category) {
-      if (!appsByCategory[category]) {
-        appsByCategory[category] = [];
+      if (!serversByCategory[category]) {
+        serversByCategory[category] = [];
       }
       
-      appsByCategory[category].push({
-        name: appName,
-        path: appPath,
+      serversByCategory[category].push({
+        name: serverName,
+        path: serverPath,
         description: description || ''
       });
     } else {
-      console.warn(`Skipping app "${appName}" due to missing category in repo-index.json`);
+      console.warn(`Skipping server "${serverName}" due to missing category in repo-index.json`);
     }
   }
 
   // Sort categories alphabetically
-  const sortedCategories = Object.keys(appsByCategory).sort((a, b) => a.localeCompare(b));
+  const sortedCategories = Object.keys(serversByCategory).sort((a, b) => a.localeCompare(b));
   console.log(`Found categories: ${sortedCategories.join(', ')}`);
 
   let markdownList = '';
   for (const category of sortedCategories) {
     markdownList += `### ${category}\n\n`;
     
-    // Sort apps within category alphabetically
-    const sortedApps = appsByCategory[category].sort((a, b) => a.name.localeCompare(b.name));
-    console.log(`Category ${category} has ${sortedApps.length} apps`);
+    // Sort servers within category alphabetically
+    const sortedServers = serversByCategory[category].sort((a, b) => a.name.localeCompare(b.name));
+    console.log(`Category ${category} has ${sortedServers.length} servers`);
     
     // Create entries with name, path and description
-    markdownList += sortedApps.map(app => {
-      const description = app.description ? ` - ${app.description}` : '';
-      return `- [${app.name}](${app.path}/)${description}`;
+    markdownList += sortedServers.map(server => {
+      const description = server.description ? ` - ${server.description}` : '';
+      return `- [${server.name}](${server.path}/)${description}`;
     }).join('\n');
     
     markdownList += '\n\n'; // Add space between categories
@@ -102,7 +102,7 @@ function generateFullTocContent(categories) {
     '- [How it works](#how-it-works)',
     '- [How to contribute](#how-to-contribute)',
     '- [Community](#community)',
-    '- [Applications](#applications)'
+    '- [MCP Servers](#mcp-servers)'
   ];
 
   // Dynamic category items (indented)
@@ -124,26 +124,26 @@ function generateFullTocContent(categories) {
  */
 function updateReadme() {
   try {
-    const { markdownList: newAppListContent, categories: sortedCategories } = generateGroupedAppListAndCategories();
+    const { markdownList: newServerListContent, categories: sortedCategories } = generateGroupedAppListAndCategories();
     const newFullTocContent = generateFullTocContent(sortedCategories);
 
     let readmeContent = fs.readFileSync(readmePath, 'utf8');
     const originalReadmeContent = readmeContent; // Store original content for comparison
 
-    // --- Update Applications Section ---
+    // --- Update MCP Servers Section ---
     const appStartIndex = readmeContent.indexOf(appStartMarker);
     const appEndIndex = readmeContent.indexOf(appEndMarker);
 
     if (appStartIndex === -1 || appEndIndex === -1 || appStartIndex >= appEndIndex) {
-      console.error(`Error: Application markers '${appStartMarker}' or '${appEndMarker}' not found or in wrong order in ${readmePath}`);
+      console.error(`Error: MCP Servers markers '${appStartMarker}' or '${appEndMarker}' not found or in wrong order in ${readmePath}`);
       process.exit(1);
     }
 
     const appPrefix = readmeContent.substring(0, appStartIndex + appStartMarker.length);
     const appSuffix = readmeContent.substring(appEndIndex);
     // Ensure there's a newline after the start marker and before the list, and after the list before the end marker
-    readmeContent = `${appPrefix}\n\n${newAppListContent}\n\n${appSuffix}`;
-    console.log('Applications section prepared.');
+    readmeContent = `${appPrefix}\n\n${newServerListContent}\n\n${appSuffix}`;
+    console.log('MCP Servers section prepared.');
 
     // --- Update TOC Section ---
     const tocStartIndex = readmeContent.indexOf(tocStartMarker);
@@ -151,7 +151,7 @@ function updateReadme() {
 
     if (tocStartIndex === -1 || tocEndIndex === -1 || tocStartIndex >= tocEndIndex) {
       console.error(`Error: TOC markers '${tocStartMarker}' or '${tocEndMarker}' not found or in wrong order in ${readmePath}. Please add them.`);
-      // Don't exit immediately, maybe only apps changed. But warn loudly.
+      // Don't exit immediately, maybe only servers changed. But warn loudly.
     } else {
       const tocPrefix = readmeContent.substring(0, tocStartIndex + tocStartMarker.length);
       const tocSuffix = readmeContent.substring(tocEndIndex);
