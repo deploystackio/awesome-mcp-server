@@ -25,19 +25,19 @@ jobs:
               repo: context.repo.repo,
               body: `## Thank you for your contribution! 🎉
 
-            We appreciate your interest in improving the awesome-docker-run collection!
+            We appreciate your interest in improving the awesome-mcp-server collection!
 
             Our team will review your submission as soon as possible. In the meantime:
-            - Make sure your Docker run command follows our contribution guidelines
-            - Check that the command uses a publicly accessible image
+            - Make sure your MCP server configuration follows our contribution guidelines
+            - Check that the server uses publicly accessible packages
             - Verify that your PR includes all required information
 
-            Once approved and merged, your application will be:
-            1. Added to the DeployStack catalog
+            Once approved and merged, your MCP server will be:
+            1. Added to the DeployStack MCP catalog at deploystack.io/mcp
             2. Made available via our one-click deployment system
             3. Listed in the README of this repository
 
             Feel free to join our [Discord community](https://discord.gg/42Ce3S7b3b) if you have any questions.
 
-            Thank you for helping make deploying applications easier for everyone!`
+            Thank you for helping make deploying MCP servers easier for everyone!`
             })

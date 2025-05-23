@@ -4,7 +4,7 @@ on:
   pull_request_target:
     types: [opened, synchronize]
     paths:
-      - 'commands/**'
+      - 'servers/**'
 
 permissions:
   contents: read
@@ -38,9 +38,9 @@ jobs:
         run: |
           echo "All changed files:"
           echo "${{ steps.files.outputs.all_changed_files }}"
-          echo "Commands dir changes:"
+          echo "Servers dir changes:"
           for file in ${{ steps.files.outputs.all_changed_files }}; do
-            if [[ "$file" == commands/* ]]; then
+            if [[ "$file" == servers/* ]]; then
               echo "- $file"
             fi
           done
@@ -83,9 +83,9 @@ jobs:
             }
             
             message += 'Please make sure you follow the contribution guidelines:\n\n';
-            message += '1. Create your file at `commands/your-app-name/docker-run.md`\n';
+            message += '1. Create your file at `servers/your-server-name/mcp-server.md`\n';
             message += '2. Include a valid GitHub repository URL\n';
-            message += '3. Add a proper Docker run command\n\n';
+            message += '3. Add a proper MCP server configuration\n\n';
             message += 'See [CONTRIBUTING.md](../../CONTRIBUTING.md) for more details.';
             
             github.rest.issues.createComment({
@@ -102,12 +102,12 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Check if there were changes in commands directory
+            // Check if there were changes in servers directory
             const changedFiles = '${{ steps.files.outputs.all_changed_files }}'.split(' ');
-            const commandsChanged = changedFiles.some(file => file.startsWith('commands/'));
+            const serversChanged = changedFiles.some(file => file.startsWith('servers/'));
             
-            if (!commandsChanged) {
-              console.log('No changes in commands directory. Skipping label removal.');
+            if (!serversChanged) {
+              console.log('No changes in servers directory. Skipping label removal.');
               return;
             }
             
@@ -150,12 +150,12 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Check if there were changes in commands directory
+            // Check if there were changes in servers directory
             const changedFiles = '${{ steps.files.outputs.all_changed_files }}'.split(' ');
-            const commandsChanged = changedFiles.some(file => file.startsWith('commands/'));
+            const serversChanged = changedFiles.some(file => file.startsWith('servers/'));
             
-            if (!commandsChanged) {
-              console.log('No changes in commands directory. Skipping success comment.');
+            if (!serversChanged) {
+              console.log('No changes in servers directory. Skipping success comment.');
               return;
             }
             
@@ -175,7 +175,7 @@ jobs:
               labels: ['validation-passed']
             });
             
-            // Check if this is an update to an existing command
+            // Check if this is an update to an existing server
             try {
               const fs = require('fs');
               let validationResults;
@@ -187,16 +187,16 @@ jobs:
                 return;
               }
               
-              // If there are updates detected, add the command-update label
+              // If there are updates detected, add the server-update label
               if (validationResults.updates && validationResults.updates.length > 0) {
-                console.log('Command updates detected:', validationResults.updates);
+                console.log('Server updates detected:', validationResults.updates);
                 
-                // Add the "command-update" label
+                // Add the "server-update" label
                 await github.rest.issues.addLabels({
                   issue_number: context.issue.number,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  labels: ['command-update']
+                  labels: ['server-update']
                 });
                 
                 // Add a comment about the update
@@ -204,9 +204,9 @@ jobs:
                   issue_number: context.issue.number,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  body: '## Command Update Detected 🔄\n\nThis PR updates an existing Docker run command. The validation has passed and the PR has been labeled accordingly.'
+                  body: '## Server Update Detected 🔄\n\nThis PR updates an existing MCP server. The validation has passed and the PR has been labeled accordingly.'
                 });
               }
             } catch (error) {
-              console.error('Error checking for command updates:', error);
+              console.error('Error checking for server updates:', error);
             }
