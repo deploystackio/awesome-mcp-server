@@ -6,7 +6,7 @@
 
 Deploy this MCP server with a single click:
 
-<a href="https://cloud.deploystack.io/deploy?app=[app_url]"><img src="https://raw.githubusercontent.com/deploystackio/deploy-templates/refs/heads/main/.assets/img/deploy-via-deploystack.avif" height="37"></a>
+<a href="https://cloud.deploystack.io/deploy?app=[app_url]"><img src="https://raw.githubusercontent.com/deploystackio/deploy-templates/refs/heads/main/.assets/img/deploy-via-deploystack.svg" height="37"></a>
 
 ## 💬 Need Help?
 
