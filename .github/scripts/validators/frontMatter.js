@@ -21,14 +21,34 @@ async function validateFrontMatter(fileContent, filePath) {
     const frontMatter = yaml.load(frontMatterMatch[1]);
     
     // Check required fields
-    if (!frontMatter.repo) {
-      return `Missing required field 'repo' in ${filePath}`;
+    const requiredFields = [
+      'repo',
+      'category', 
+      'language',
+      'start_command',
+      'build_command'
+    ];
+    
+    for (const field of requiredFields) {
+      if (!frontMatter[field]) {
+        return `Missing required field '${field}' in ${filePath}`;
+      }
+      
+      // Check if field is not just whitespace
+      if (typeof frontMatter[field] === 'string' && frontMatter[field].trim() === '') {
+        return `Required field '${field}' cannot be empty in ${filePath}`;
+      }
     }
     
     // Validate repository URL format
     const repoUrlRegex = /^https:\/\/github\.com\/[^\/]+\/[^\/]+$/;
     if (!repoUrlRegex.test(frontMatter.repo)) {
       return `Invalid repository URL format in ${filePath}. Should be in format https://github.com/username/repo-name`;
+    }
+    
+    // Validate category length (from existing category validator logic)
+    if (typeof frontMatter.category === 'string' && frontMatter.category.trim().length < 2) {
+      return `Field 'category' must be at least 2 characters long in ${filePath}. Found: "${frontMatter.category.trim()}"`;
     }
     
     // Check if GitHub repository exists

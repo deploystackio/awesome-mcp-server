@@ -44,6 +44,9 @@ logo: "https://example.com/path/to/logo.png"
 - **MCP Server Configuration**: The configuration must include the command, arguments, and environment variables needed to run the server.
 - **category**: The category under which your MCP server falls (e.g., Database, File System, Productivity, etc.). This field is mandatory, cannot be empty, and must be at least 2 characters long.
 - **GitHub Repository URL**: A valid GitHub repository URL where the MCP server code is hosted.
+- **language**: The language you have written your MCP Server i.e.: node
+- **start_command**: MCP Server start command i.e.: npm run start
+- **build_command**: MCP Server build command i.e.: npm run build
 
 ## Optional Information
 
