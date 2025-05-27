@@ -15,6 +15,7 @@ A curated collection of Model Context Protocol (MCP) servers that can be easily 
 - [Community](#community)
 - [MCP Servers](#mcp-servers)
   - [analyze](#analyze)
+  - [OpenAPI](#openapi)
 - [License](#license)
 <!-- TOC_END -->
 
@@ -53,6 +54,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 ### analyze
 
 - [octagon-mcp-server](servers/octogram/) - A free MCP server to analyze and extract insights from public filings, earnings transcripts, financial metrics, stock market data, private market transactions, and deep web-based research within Claude Desktop and other popular MCP clients.
+
+### OpenAPI
+
+- [quran-mcp-server](servers/quran/) - Quran.com API integration for verse search, translation and tafsir
 
 <!-- APPLICATIONS_END -->
 
