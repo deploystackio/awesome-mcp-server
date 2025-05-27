@@ -10,5 +10,11 @@
     "category": "OpenAPI",
     "name": "quran-mcp-server",
     "description": "Quran.com API integration for verse search, translation and tafsir"
+  },
+  "https://github.com/mikechao/metmuseum-mcp": {
+    "path": "servers/metmuseum-mcp",
+    "category": "Museum",
+    "name": "metmuseum-mcp",
+    "description": "Met Museum MCP integration to discover the art collection at The Metropolitan Museum of Art in New York"
   }
 }
