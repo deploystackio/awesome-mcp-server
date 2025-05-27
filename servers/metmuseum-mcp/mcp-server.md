@@ -10,6 +10,7 @@ build_command: "npm run build" # i.e.: npm run build
 
 ```json
 {
+"mcpServers": {
   "mcp-servers": {
     "met-museum": {
       "command": "npx",
@@ -19,5 +20,6 @@ build_command: "npm run build" # i.e.: npm run build
       ]
     }
   }
+}
 }
 ```
