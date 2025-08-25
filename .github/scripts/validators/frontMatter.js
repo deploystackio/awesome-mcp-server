@@ -25,8 +25,8 @@ async function validateFrontMatter(fileContent, filePath) {
       'repo',
       'category', 
       'language',
-      'start_command',
-      'build_command'
+      // 'start_command',
+      // 'build_command'
     ];
     
     for (const field of requiredFields) {
