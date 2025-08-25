@@ -1,1 +1,8 @@
-{}
+{
+  "https://github.com/ReAPI-com/mcp-openapi": {
+    "path": "servers/reapi-openapi",
+    "category": "API",
+    "name": "mcp-openapi",
+    "description": "OpenAPI specification MCP server."
+  }
+}
