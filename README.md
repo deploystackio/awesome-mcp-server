@@ -14,9 +14,7 @@ A community-curated collection of production-ready Model Context Protocol (MCP) 
 - [How to contribute](#how-to-contribute)
 - [Community](#community)
 - [MCP Servers](#mcp-servers)
-  - [analyze](#analyze)
-  - [Museum](#museum)
-  - [OpenAPI](#openapi)
+  - [API](#api)
 - [License](#license)
 <!-- TOC_END -->
 
@@ -54,17 +52,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 
 <!-- APPLICATIONS_START -->
 
-### analyze
+### API
 
-- [octagon-mcp-server](servers/octogram/) - A free MCP server to analyze and extract insights from public filings, earnings transcripts, financial metrics, stock market data, private market transactions, and deep web-based research within Claude Desktop and other popular MCP clients.
-
-### Museum
-
-- [metmuseum-mcp](servers/metmuseum-mcp/) - Met Museum MCP integration to discover the art collection at The Metropolitan Museum of Art in New York
-
-### OpenAPI
-
-- [quran-mcp-server](servers/quran/) - Quran.com API integration for verse search, translation and tafsir
+- [mcp-openapi](servers/reapi-openapi/) - OpenAPI specification MCP server.
 
 <!-- APPLICATIONS_END -->
 
