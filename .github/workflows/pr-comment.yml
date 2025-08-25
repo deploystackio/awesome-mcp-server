@@ -33,8 +33,8 @@ jobs:
             - Verify that your PR includes all required information
 
             Once approved and merged, your MCP server will be:
-            1. Added to the DeployStack MCP catalog at deploystack.io/mcp
-            2. Made available via our one-click deployment system
+            1. Added to the DeployStack MCP catalog at https://cloud.deploystack.io
+            2. Made available to all teams via https://cloud.deploystack.io
             3. Listed in the README of this repository
 
             Feel free to join our [Discord community](https://discord.gg/42Ce3S7b3b) if you have any questions.
