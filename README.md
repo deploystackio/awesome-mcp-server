@@ -15,6 +15,7 @@ A community-curated collection of production-ready Model Context Protocol (MCP) 
 - [Community](#community)
 - [MCP Servers](#mcp-servers)
   - [API](#api)
+  - [Filesystem](#filesystem)
 - [License](#license)
 <!-- TOC_END -->
 
@@ -55,6 +56,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 ### API
 
 - [mcp-openapi](servers/reapi-openapi/) - OpenAPI specification MCP server.
+
+### Filesystem
+
+- [servers](servers/filesystem/) - Model Context Protocol Servers
 
 <!-- APPLICATIONS_END -->
 
