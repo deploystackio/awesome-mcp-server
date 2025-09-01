@@ -41,9 +41,9 @@ async function validateFrontMatter(fileContent, filePath) {
     }
     
     // Validate repository URL format
-    const repoUrlRegex = /^https:\/\/github\.com\/[^\/]+\/[^\/]+$/;
+    const repoUrlRegex = /^https:\/\/github\.com\/[^\/]+\/[^\/]+/;
     if (!repoUrlRegex.test(frontMatter.repo)) {
-      return `Invalid repository URL format in ${filePath}. Should be in format https://github.com/username/repo-name`;
+      return `Invalid repository URL format in ${filePath}. Should be in format https://github.com/username/repo-name or https://github.com/username/repo-name/path/to/subdirectory`;
     }
     
     // Validate category length (from existing category validator logic)
@@ -54,13 +54,37 @@ async function validateFrontMatter(fileContent, filePath) {
     // Check if GitHub repository exists
     try {
       const repoUrl = frontMatter.repo;
-      const apiUrl = repoUrl.replace('https://github.com/', 'https://api.github.com/repos/');
+      
+      // Extract the base repository URL for API validation
+      const baseRepoMatch = repoUrl.match(/^https:\/\/github\.com\/([^\/]+\/[^\/]+)/);
+      if (!baseRepoMatch) {
+        return `Could not parse repository URL in ${filePath}`;
+      }
+      
+      const baseRepo = baseRepoMatch[1]; // e.g., "modelcontextprotocol/servers"
+      const apiUrl = `https://api.github.com/repos/${baseRepo}`;
+      
       const response = await axios.get(apiUrl);
       
       if (response.status !== 200) {
-        return `GitHub repository ${repoUrl} does not exist or is not accessible`;
+        return `GitHub repository ${baseRepo} does not exist or is not accessible`;
       }
+      
+      // If the URL contains a path (subdirectory), optionally validate that the path exists
+      const pathMatch = repoUrl.match(/^https:\/\/github\.com\/[^\/]+\/[^\/]+\/(.+)$/);
+      if (pathMatch) {
+        const subPath = pathMatch[1];
+        console.log(`Note: Repository URL contains subdirectory path: ${subPath}`);
+        
+        // Optional: You could add additional validation here to check if the subdirectory exists
+        // This would require making additional API calls to check the repository contents
+        // For now, we'll just log it as informational
+      }
+      
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return `GitHub repository does not exist or is not accessible: ${error.message}`;
+      }
       return `Error checking GitHub repository: ${error.message}`;
     }
     
