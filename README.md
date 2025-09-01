@@ -16,6 +16,7 @@ A community-curated collection of production-ready Model Context Protocol (MCP) 
 - [MCP Servers](#mcp-servers)
   - [API](#api)
   - [Filesystem](#filesystem)
+  - [Web Scraping](#web-scraping)
 - [License](#license)
 <!-- TOC_END -->
 
@@ -60,6 +61,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 ### Filesystem
 
 - [servers](servers/filesystem/) - Model Context Protocol Servers
+
+### Web Scraping
+
+- [brightdata-mcp](servers/brightdata/) - A powerful Model Context Protocol (MCP) server that provides an all-in-one solution for public web access.
 
 <!-- APPLICATIONS_END -->
 
