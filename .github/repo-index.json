@@ -4,5 +4,11 @@
     "category": "API",
     "name": "mcp-openapi",
     "description": "OpenAPI specification MCP server."
+  },
+  "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem": {
+    "path": "servers/filesystem",
+    "category": "Filesystem",
+    "name": "servers",
+    "description": "Model Context Protocol Servers"
   }
 }
