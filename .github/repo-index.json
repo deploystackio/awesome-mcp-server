@@ -10,5 +10,11 @@
     "category": "Filesystem",
     "name": "servers",
     "description": "Model Context Protocol Servers"
+  },
+  "https://github.com/brightdata/brightdata-mcp": {
+    "path": "servers/brightdata",
+    "category": "Web Scraping",
+    "name": "brightdata-mcp",
+    "description": "A powerful Model Context Protocol (MCP) server that provides an all-in-one solution for public web access."
   }
 }
